@@ -176,9 +176,77 @@ nameserver 8.8.4.4
 #### ----> get uuid command:
 blkid -s UUID
 
-
-
-
-
+## open and close net card command :
+ifup eth0
+ifdown eth1
 
 "# vagrant" 
+
+## yum update from cdrom ==>
+mount /dev/cdrom /mnt
+
+vi /etc/yum.repos.d/rhel7.repo
+[base]
+name=rhel7.repo
+baseurl=file://mnt
+gpgcheck=0
+enabled=1
+
+yum clean all
+
+yum build cache
+
+yum repolist
+
+yum install nmap
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

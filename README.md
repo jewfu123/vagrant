@@ -223,6 +223,7 @@ mkdir /mnt/share
 mount -t vboxsf media_sf_tmp_ /mnt/share
 
 mkdir /mnt/vagrant
+mkdir /mnt/vbox_tmp
 mount -t vboxsf vagrant /mnt/vagrant
 ```
 #### 实现开机自动挂载
@@ -233,7 +234,7 @@ sudo gedit /etc/fstab
 virtualbox_share /mnt/share/ vboxsf defaults 0 0
 
 #vbox-tmp-begin
-vbox_tmp /mnt/vbox/tmp vboxsf defaults 0 0
+media_sf_tmp_ /mnt/vbox_tmp vboxsf defaults 0 0
 #vbox-tmp-end
 ```
 

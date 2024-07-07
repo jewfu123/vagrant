@@ -238,6 +238,115 @@ media_sf_tmp_ /mnt/vbox_tmp vboxsf defaults 0 0
 #vbox-tmp-end
 ```
 
+## Setup httpd and setting:
+/sbin/service iptables status
+
+iptables -A RH-Firewall-1-INPUT -m state --state NEW -p tcp --dport 8044 -j ACCEPT
+
+cp /etc/httpd/conf/httpd.conf ~/httpd.conf.backup
+
+vi /etc/httpd/conf/httpd.conf
+
+ls -l /etc/httpd/conf/httpd.conf
+
+#### Apache Svr:
+yum install httpd
+
+service httpd restart
+
+chkconfig httpd on
+
+vi /etc/httpd/conf/httpd.conf
+/NameVirtualHost
+
+<VirtualHost *:80>
+#    ServerAdmin webmaster@dummy-host.example.com
+    DocumentRoot /var/www.html
+    ServerName itsupport.db
+#    ErrorLog logs/dummy-host.example.com-error_log
+#    CustomLog logs/dummy-host.example.com-access_log common
+</VirtualHost>
+ 
+service httpd restart
+
+elinks http://127.0.0.1
+
+
+#### Laravel5.5 in Centos5.9
+1. install:
+$composer create-project "laravel/laravel=5.5.*" --prefer-dist {インストールフォルダ名}
+
+2. edit .env
+/.env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE={データベース名}
+DB_USERNAME={ID}
+DB_PASSWORD={Password}
+
+3. storage parmition change:
+$chmod 777 -R storage
+
+4. DBの191文字超エラー回避
+app/Providers/AppServiceProvider.php
+class AppServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        //追記
+        \Illuminate\Support\Facades\Schema::defaultStringLength(191);
+    }
+    ...
+
+5. publicを {アプリドメイン}/ でアクセス
+Php laravel 5.5 project .htaccess file
+https://gist.github.com/liaotzukai/8e61a3f6dd82c267e05270b505eb6d5a
+
+/.htaccess
+//ルートディレクトリに配置
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} -d [OR]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ ^$1 [N]
+    RewriteCond %{REQUEST_URI} (\.\w+$) [NC]
+    RewriteRule ^(.*)$ public/$1 
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ server.php
+</IfModule>
+
+6. おまけ
+$git init
+$git add .
+$git commit -m 'start'
+//Git-Hub マイリポジトリから URL をコピーしておく
+$git remote add origin '{URL}'
+$git push -u origin master
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

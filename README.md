@@ -239,6 +239,7 @@ media_sf_tmp_ /mnt/vbox_tmp vboxsf defaults 0 0
 ```
 
 ## Setup httpd and setting:
+```shell
 /sbin/service iptables status
 
 iptables -A RH-Firewall-1-INPUT -m state --state NEW -p tcp --dport 8044 -j ACCEPT
@@ -248,8 +249,9 @@ cp /etc/httpd/conf/httpd.conf ~/httpd.conf.backup
 vi /etc/httpd/conf/httpd.conf
 
 ls -l /etc/httpd/conf/httpd.conf
-
+```
 #### Apache Svr:
+```shell
 yum install httpd
 
 service httpd restart
@@ -270,13 +272,15 @@ vi /etc/httpd/conf/httpd.conf
 service httpd restart
 
 elinks http://127.0.0.1
-
+```
 
 #### Laravel5.5 in Centos5.9
 1. install:
+```shell
 $composer create-project "laravel/laravel=5.5.*" --prefer-dist {インストールフォルダ名}
-
+```
 2. edit .env
+```shell
 /.env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -284,11 +288,13 @@ DB_PORT=3306
 DB_DATABASE={データベース名}
 DB_USERNAME={ID}
 DB_PASSWORD={Password}
-
+```
 3. storage parmition change:
+```shell
 $chmod 777 -R storage
-
+```
 4. DBの191文字超エラー回避
+```shell
 app/Providers/AppServiceProvider.php
 class AppServiceProvider extends ServiceProvider
 {
@@ -298,8 +304,9 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Support\Facades\Schema::defaultStringLength(191);
     }
     ...
-
+```
 5. publicを {アプリドメイン}/ でアクセス
+```shell
 Php laravel 5.5 project .htaccess file
 https://gist.github.com/liaotzukai/8e61a3f6dd82c267e05270b505eb6d5a
 
@@ -319,25 +326,56 @@ https://gist.github.com/liaotzukai/8e61a3f6dd82c267e05270b505eb6d5a
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ server.php
 </IfModule>
-
+```
 6. おまけ
+```shell
 $git init
 $git add .
 $git commit -m 'start'
 //Git-Hub マイリポジトリから URL をコピーしておく
 $git remote add origin '{URL}'
 $git push -u origin master
+```
+#### vagrant access with ssh key:
+```shell
+1. cmd -> vagrant ssh-config to get path of '.vagrant.d'
 
+2. cd '.vagrant.d'
 
+3. cmd -> ssh-keygen -y -f insecure_private_key > id_rsa.pub
+convert 'insecure_private_key' to 'id_rsa.pub'
 
+4. cat 'id_rsa.pub' and copy data.
 
+5. paste into ~/.ssh/newfilename
+    for example:
+    echo 'xxxxx' >> authorized_keys
 
+6. in Linux set file auth..:
+    chmod 600 authorized_keys
+    chmod 700 .ssh/
 
+7. go to your vagrant path and cmd -> vagrant reload.
 
+*验证成功的方法：
+vagrant ssh 能否正常登录。
+**->不要用 ssh -p 2222 vagrant@127.0.0.1
+```
 
+#### How can I have multiple authorized_keys files?
+```shell
+Simply append the name of the file next to the old one.
 
+AuthorizedKeysFile     ~/.ssh/authorized_keys ~/.ssh/authorized_keys_generated
+```
 
+#### How to modify Vagrant VM’s Default SSH PORT
 
+We can add a config in Vagarantfile to assign unique SSH port to each Vagrant VM.
+```shell
+config.vm.network :forwarded_port, guest: 22, host: 3200, id: 'ssh'
+```
+Setting id: ssh overwrites the default port mapping.
 
 
 

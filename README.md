@@ -336,7 +336,7 @@ $git commit -m 'start'
 $git remote add origin '{URL}'
 $git push -u origin master
 ```
-#### vagrant access with ssh key:
+#### vagrant access with ssh public key:
 ```shell
 1. cmd -> vagrant ssh-config to get path of '.vagrant.d'
 
@@ -364,6 +364,24 @@ ssh -i C:\vagrant\ubuntu\.vagrant\machines\default\virtualbox\id_rsa.pub -p 4422
 vagrant ssh 利用的是服务端append的key文件（来自客户端的ssh-keygen)
 ssh -i .../pub -p xxxx name@127.0.0.1 (直接利用客户端自我产生的key文件ssh登录）
 ```
+
+#### vagrant access with ssh private key:
+```shell
+1. in ~/.ssh/ cmd -> ssh-keygen -t rsa -b 4096
+    enter password > get prived key file.
+
+2. in vagrant conf file add below line:
+    Vagrant.configure("2") do |config|
+        config.vm.box = "rrapid7/metasploitable3-ub1404"
+        config.vm.box_version = "0.1.12-weekly"
+  >>>   config.ssh.private_key_path = File.expand_path('~/.ssh/id_rsa')
+
+3. vagrant reload
+```
+#### vagrant accessed can't with ssh key:
+1. in vagrant config file:
+   >> config.ssh.insert_key = false
+2. vagrant reload
 
 #### How can I have multiple authorized_keys files?
 ```shell

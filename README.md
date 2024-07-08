@@ -359,7 +359,10 @@ convert 'insecure_private_key' to 'id_rsa.pub'
 
 *验证成功的方法：
 vagrant ssh 能否正常登录。
-**->不要用 ssh -p 2222 vagrant@127.0.0.1
+ssh -i C:\vagrant\ubuntu\.vagrant\machines\default\virtualbox\id_rsa.pub -p 4422 vagrant@127.0.0.1 能否正常登录
+*->
+vagrant ssh 利用的是服务端append的key文件（来自客户端的ssh-keygen)
+ssh -i .../pub -p xxxx name@127.0.0.1 (直接利用客户端自我产生的key文件ssh登录）
 ```
 
 #### How can I have multiple authorized_keys files?

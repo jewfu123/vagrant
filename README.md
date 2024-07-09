@@ -398,8 +398,19 @@ config.vm.network :forwarded_port, guest: 22, host: 3200, id: 'ssh'
 ```
 Setting id: ssh overwrites the default port mapping.
 
+#### Laravel command:
+```shell
+composer require laravel/ui
 
+php artisan config:publish broad casting
+```
+#### php + composer.phar
+```shell
+mv composer.phar /usr/local/bin/composer
 
+php composer install
+..
+```
 
 
 
